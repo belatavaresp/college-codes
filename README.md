@@ -1,4 +1,4 @@
-# College Assignments Repository
+# College Codes Repository
 
 ## Overview
 
