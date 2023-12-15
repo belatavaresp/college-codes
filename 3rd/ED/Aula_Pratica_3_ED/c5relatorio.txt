@@ -1,0 +1,152 @@
+O problema no código é a falta da função free() no final para liberar a 
+memória alocada usando malloc() para intArray.
+
+Para corrigir apenas incluimos um free() ao final do código.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT ANTES DA CORREÇÃO
+
+Script started on Wed Apr  5 23:46:29 2023
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hexitvalgrind --leak-check=full ./c4c[32Dlldb c4c                        [24D[8Dgcc -g c4correto.c -o c4c[25Dlldb c4c                 [17D[8Dvalgrind --leak-check=full ./c4c[32Dexit                            [28D    exitvalgrind --leak-check=full ./c4c[32Dlldb c4c                        [24D[8Dgcc -g c4correto.c -o c4c[25Dlldb c4c                 [17D[8Dgcc -g c4correto.c -o c4c[P[10C [11D[P[10C [11D[P[10C [11D[P[10C [11D[P[9C [11D[P[10C [11D[P[10C [11D5o.c -o c4c[10D[1C[P[9C [10D[1C[1C[1C[1C[1C[1C[1C[1Cc  5cc [1C5[?2004l
+
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hllldb c5[?2004l
+
+(lldb) target create "c5"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c5' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gbreakpoint set ==[K[1G[2m(lldb) [22m[24G[K[1G[2m(lldb) [22m[23G--file c5.c ==[K[1G[2m(lldb) [22m[36G[K[1G[2m(lldb) [22m[35G--n[K[1G[2m(lldb) [22m[37Gline 24
+Breakpoint 1: where = c5`main + 143 at c5.c:24:5, address = 0x0000000100003f2f
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 64261 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c5' (x86_64)
+intArray[621]: 621
+
+Process 64261 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f2f[0m c5`main at [36mc5.c[0m:[33m24[0m:[33m5[0m
+[33m  [0m 21  	    printf("intArray[%d]: %d\n", randNum, intArray[randNum]);
+[33m  [0m 22  	
+[33m  [0m 23  	    [35m// end without freeing![0m
+[33m->[0m 24  	    [32m[4mreturn[0m[0m [31m0[0m;
+[33m  [0m 25  	}
+[33m  [0m 26  	
+Target 0: (c5) stopped.
+(lldb) [1G[2m(lldb) [22m[8Gcontinue
+Process 64261 resuming
+Process 64261 exited with status = 0 (0x00000000) 
+(lldb) [1G[2m(lldb) [22m[8Gquit
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hlldb c5gcc -g c5.c -o c5[17Dexit             [13Dvalgrind --leak-check=full ./c4c[1C  5[?2004l
+
+==64278== Memcheck, a memory error detector
+==64278== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==64278== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==64278== Command: ./c5
+==64278== 
+intArray[761]: 761
+==64278== 
+==64278== HEAP SUMMARY:
+==64278==     in use at exit: 22,059 bytes in 163 blocks
+==64278==   total heap usage: 177 allocs, 14 frees, 26,803 bytes allocated
+==64278== 
+==64278== 2,048 bytes in 1 blocks are definitely lost in loss record 34 of 38
+==64278==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==64278==    by 0x100706079: objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::grow(unsigned int) (in /usr/lib/libobjc.A.dylib)
+==64278==    by 0x10070600D: objc::detail::DenseSetPair<char const*>* objc::DenseMapBase<objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >, char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::InsertIntoBucketImpl<char const*>(char const* const&, char const* const&, objc::detail::DenseSetPair<char const*>*) (in /usr/lib/libobjc.A.dylib)
+==64278==    by 0x100709EC1: __sel_registerName(char const*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==64278==    by 0x1006F7D4B: fixupMethodList(method_list_t*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==64278==    by 0x1006ED835: prepareMethodLists(objc_class*, method_list_t**, int, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==64278==    by 0x10070007C: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==64278==    by 0x1006FFB7B: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==64278==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==64278==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==64278==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==64278==    by 0x1006EBA1E: map_images_nolock (in /usr/lib/libobjc.A.dylib)
+==64278== 
+==64278== 4,000 bytes in 1 blocks are definitely lost in loss record 37 of 38
+==64278==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==64278==    by 0x100003EB8: main (c5.c:9)
+==64278== 
+==64278== LEAK SUMMARY:
+==64278==    definitely lost: 6,048 bytes in 2 blocks
+==64278==    indirectly lost: 0 bytes in 0 blocks
+==64278==      possibly lost: 0 bytes in 0 blocks
+==64278==    still reachable: 0 bytes in 0 blocks
+==64278==         suppressed: 16,011 bytes in 161 blocks
+==64278== 
+==64278== For lists of detected and suppressed errors, rerun with: -s
+==64278== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 7 from 7)
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT DEPOIS DA CORREÇÃO
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hvalgrind --leak-check=full ./c5[31Dlldb c5                        [24Dgcc -g c5.c -o c5cc.c -o c5c[9Do.c -o c5c[9Dr.c -o c5c[9Dr.c -o c5c[9De.c -o c5c[9Dt.c -o c5c[9Do.c -o c5c[9D[?2004l
+
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hllldb c5c[?2004l
+
+(lldb) target create "c5c"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c5c' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 64329 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c5c' (x86_64)
+intArray[813]: 813
+
+Process 64329 exited with status = 0 (0x00000000) 
+(lldb) [1G[2m(lldb) [22m[8Gquit
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hlldb c5c[8Dgcc -g c5correto.c -o c5c[25Dvalgrind --leak-check=full ./c5c[?2004l
+
+==64340== Memcheck, a memory error detector
+==64340== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==64340== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==64340== Command: ./c5c
+==64340== 
+intArray[690]: 690
+==64340== 
+==64340== HEAP SUMMARY:
+==64340==     in use at exit: 18,059 bytes in 162 blocks
+==64340==   total heap usage: 177 allocs, 15 frees, 26,803 bytes allocated
+==64340== 
+==64340== 2,048 bytes in 1 blocks are definitely lost in loss record 34 of 37
+==64340==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==64340==    by 0x100706079: objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::grow(unsigned int) (in /usr/lib/libobjc.A.dylib)
+==64340==    by 0x10070600D: objc::detail::DenseSetPair<char const*>* objc::DenseMapBase<objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >, char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::InsertIntoBucketImpl<char const*>(char const* const&, char const* const&, objc::detail::DenseSetPair<char const*>*) (in /usr/lib/libobjc.A.dylib)
+==64340==    by 0x100709EC1: __sel_registerName(char const*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==64340==    by 0x1006F7D4B: fixupMethodList(method_list_t*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==64340==    by 0x1006ED835: prepareMethodLists(objc_class*, method_list_t**, int, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==64340==    by 0x10070007C: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==64340==    by 0x1006FFB7B: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==64340==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==64340==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==64340==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==64340==    by 0x1006EBA1E: map_images_nolock (in /usr/lib/libobjc.A.dylib)
+==64340== 
+==64340== LEAK SUMMARY:
+==64340==    definitely lost: 2,048 bytes in 1 blocks
+==64340==    indirectly lost: 0 bytes in 0 blocks
+==64340==      possibly lost: 0 bytes in 0 blocks
+==64340==    still reachable: 0 bytes in 0 blocks
+==64340==         suppressed: 16,011 bytes in 161 blocks
+==64340== 
+==64340== For lists of detected and suppressed errors, rerun with: -s
+==64340== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 7 from 7)
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004heexit[?2004l
+
+
+Script done on Wed Apr  5 23:48:27 2023

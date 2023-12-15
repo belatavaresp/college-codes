@@ -1,0 +1,185 @@
+O programa tenta acessar a posição 10 em um vetor de posições 0-9 e por isso falha no acesso de memória
+
+Para corrigir basta mudar o segundo argumento do for para i<10
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT ANTES DA CORREÇÃO:
+
+Script started on Wed Apr  5 22:33:40 2023
+
+[1m[7m%[27m[1m[0m                                                                                                                        
+ 
+(lldb) target create "c1"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c1' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gbreakpoint set --c1.c[K[1G[2m(lldb) [22m[28G[K[1G[2m(lldb) [22m[27G[K[1G[2m(lldb) [22m[26G[K[1G[2m(lldb) [22m[25Gdi[K[1G[2m(lldb) [22m[26G[K[1G[2m(lldb) [22m[25Gfile c2[K[1G[2m(lldb) [22m[31G1.c --line 8[K[1G[2m(lldb) [22m[42G6[K[1G[2m(lldb) [22m[42G9[K[1G[2m(lldb) [22m[42G8
+Breakpoint 1: where = c1`main + 59 at c1.c:8:10, address = 0x0000000100003f3b
+(lldb) [1G[2m(lldb) [22m[8Gwac[K[1G[2m(lldb) [22m[10G[K[1G[2m(lldb) [22m[9Ghc[K[1G[2m(lldb) [22m[10Gact[K[1G[2m(lldb) [22m[12G[K[1G[2m(lldb) [22m[11Gc[K[1G[2m(lldb) [22m[11Gtch[K[1G[2m(lldb) [22m[13G[K[1G[2m(lldb) [22m[12G[K[1G[2m(lldb) [22m[11G[K[1G[2m(lldb) [22m[10G[K[1G[2m(lldb) [22m[9Gatchpount[K[1G[2m(lldb) [22m[17G[K[1G[2m(lldb) [22m[16G[K[1G[2m(lldb) [22m[15Gint set varie[K[1G[2m(lldb) [22m[27Gable i
+error: invalid process
+(lldb) [1G[2m(lldb) [22m[8Gw e s --file c1 -- l[K[1G[2m(lldb) [22m[27G[1G[2m(lldb) [22m[26Gline 8 i
+error: There's no process or it is not alive.
+(lldb) [1G[2m(lldb) [22m[8Gwatch set var -w i
+error: invalid process
+(lldb) [1G[2m(lldb) [22m[8Gwatch set var -w i[1G[2m(lldb) [22m[26G i[K[1G[2m(lldb) [22m[23Gi i[1G[2m(lldb) [22m[24G 
+error: invalid process
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 60576 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c1' (x86_64)
+Process 60576 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f3b[0m c1`main(argc=1, argv=0x00007ffeefbff6d8) at [36mc1.c[0m:[33m8[0m:[33m10[0m
+[33m  [0m 5   	  [32mint[0m i;
+[33m  [0m 6   	  [32mint[0m *a = malloc([32msizeof[0m([32mint[0m) * [31m10[0m);
+[33m  [0m 7   	  [32mif[0m (!a) [32mreturn[0m -[31m1[0m; [35m/*malloc failed*/[0m
+[33m->[0m 8   	  [32mfor[0m (i [4m=[0m [31m0[0m; i < [31m11[0m; i++){
+[33m  [0m 9   	    [35m//falha quando tenta acessar a posicao 10 [0m
+[33m  [0m 10  	    [35m//do vetor que vai de [0-9][0m
+[33m  [0m 11  	    a[i] = i;
+Target 0: (c1) stopped.
+(lldb) [1G[2m(lldb) [22m[8Gquit
+Quitting LLDB will kill one or more processes. Do you really want to proceed: [Y/n] n
+(lldb) [1G[2m(lldb) [22m[8Gval[K[1G[2m(lldb) [22m[10G[K[1G[2m(lldb) [22m[9G[K[1G[2m(lldb) [22m[8Gdel[K[1G[2m(lldb) [22m[10G[K[1G[2m(lldb) [22m[9G[K[1G[2m(lldb) [22m[8Glist[K[1G[2m(lldb) [22m[11G[K[1G[2m(lldb) [22m[10G[K[1G[2m(lldb) [22m[9G[K[1G[2m(lldb) [22m[8Gbreakppi[K[1G[2m(lldb) [22m[15G[K[1G[2m(lldb) [22m[14Goint list
+Current breakpoints:
+1: file = 'c1.c', line = 8, exact_match = 0, locations = 1, resolved = 1, hit count = 1
+  1.1: where = c1`main + 59 at c1.c:8:10, address = 0x0000000100003f3b, resolved, hit count = 1 
+
+(lldb) [1G[2m(lldb) [22m[8Gdeler[K[1G[2m(lldb) [22m[12Gte 1.1
+error: 'delete' is not a valid command.
+(lldb) [1G[2m(lldb) [22m[8Gde[K[1G[2m(lldb) [22m[9G[K[1G[2m(lldb) [22m[8Gdelte[K[1G[2m(lldb) [22m[12G[K[1G[2m(lldb) [22m[11Gete 1
+error: 'delete' is not a valid command.
+(lldb) [1G[2m(lldb) [22m[8Gbreakpoint delete 1
+1 breakpoints deleted; 0 breakpoint locations disabled.
+(lldb) [1G[2m(lldb) [22m[8Gquit
+Quitting LLDB will kill one or more processes. Do you really want to proceed: [Y/n] n
+(lldb) [1G[2m(lldb) [22m[8Gva[K[1G[2m(lldb) [22m[9G[K[1G[2m(lldb) [22m[8Gcontinue
+Process 60576 resuming
+Process 60576 exited with status = 0 (0x00000000) 
+(lldb) [1G[2m(lldb) [22m[8Gquit
+[1m[7m%[27m[1m[0m                                                                                                                        
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004h[7mvalgrind --leak-check=full[27m[26D[27mv[27ma[27ml[27mg[27mr[27mi[27mn[27md[27m [27m-[27m-[27ml[27me[27ma[27mk[27m-[27mc[27mh[27me[27mc[27mk[27m=[27mf[27mu[27ml[27ml[?2004l
+
+valgrind: no program specified
+valgrind: Use --help for more information.
+[1m[7m%[27m[1m[0m                                                                                                                        
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hvalgrind --leak-check=full ./v1  c22  1[?2004l
+
+==60640== Memcheck, a memory error detector
+==60640== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==60640== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==60640== Command: ./c1
+==60640== 
+==60640== Invalid write of size 4
+==60640==    at 0x100003F57: main (c1.c:11)
+==60640==  Address 0x1008285c8 is 0 bytes after a block of size 40 alloc'd
+==60640==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==60640==    by 0x100003F1F: main (c1.c:6)
+==60640== 
+==60640== 
+==60640== HEAP SUMMARY:
+==60640==     in use at exit: 13,963 bytes in 161 blocks
+==60640==   total heap usage: 176 allocs, 15 frees, 18,747 bytes allocated
+==60640== 
+==60640== 2,048 bytes in 1 blocks are definitely lost in loss record 34 of 36
+==60640==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==60640==    by 0x100706079: objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::grow(unsigned int) (in /usr/lib/libobjc.A.dylib)
+==60640==    by 0x10070600D: objc::detail::DenseSetPair<char const*>* objc::DenseMapBase<objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >, char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::InsertIntoBucketImpl<char const*>(char const* const&, char const* const&, objc::detail::DenseSetPair<char const*>*) (in /usr/lib/libobjc.A.dylib)
+==60640==    by 0x100709EC1: __sel_registerName(char const*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==60640==    by 0x1006F7D4B: fixupMethodList(method_list_t*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==60640==    by 0x1006ED835: prepareMethodLists(objc_class*, method_list_t**, int, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==60640==    by 0x10070007C: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==60640==    by 0x1006FFB7B: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==60640==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==60640==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==60640==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==60640==    by 0x1006EBA1E: map_images_nolock (in /usr/lib/libobjc.A.dylib)
+==60640== 
+==60640== LEAK SUMMARY:
+==60640==    definitely lost: 2,048 bytes in 1 blocks
+==60640==    indirectly lost: 0 bytes in 0 blocks
+==60640==      possibly lost: 0 bytes in 0 blocks
+==60640==    still reachable: 0 bytes in 0 blocks
+==60640==         suppressed: 11,915 bytes in 160 blocks
+==60640== 
+==60640== For lists of detected and suppressed errors, rerun with: -s
+==60640== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 7 from 7)
+
+Script done on Wed Apr  5 22:34:35 2023
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT DEPOIS DA CORREÇÃO
+
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hexitvalgrind --leak-check=full ./c1c[32Dlldb c1c                        [24D[?2004l
+
+(lldb) target create "c1c"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c1c' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gquit[1G[2m(lldb) [22m[12Gcontinue[1G[2m(lldb) [22m[16G[8Gr[K[1G[2m(lldb) [22m[9Gbreakpoint set --file c1correto.c --line 8[1G[2m(lldb) [22m[50G
+Breakpoint 1: where = c1c`main + 59 at c1correto.c:8:10, address = 0x0000000100003f3b
+(lldb) [1G[2m(lldb) [22m[8Gbreakpoint set --file c1correto.c --line 8[1G[2m(lldb) [22m[50G[8Gquit[K[1G[2m(lldb) [22m[12Gcontinue[1G[2m(lldb) [22m[16G
+error: invalid process
+(lldb) [1G[2m(lldb) [22m[8Gcontinue[1G[2m(lldb) [22m[16G[8Gbreakpoint set --file c1correto.c --line 8[1G[2m(lldb) [22m[50G[8Gquit[K[1G[2m(lldb) [22m[12Gcontinue[1G[2m(lldb) [22m[16G[8Gr[K[1G[2m(lldb) [22m[9G
+Process 61773 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c1c' (x86_64)
+Process 61773 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f3b[0m c1c`main(argc=1, argv=0x00007ffeefbff6d0) at [36mc1correto.c[0m:[33m8[0m:[33m10[0m
+[33m  [0m 5   	  [32mint[0m i;
+[33m  [0m 6   	  [32mint[0m *a = malloc([32msizeof[0m([32mint[0m) * [31m10[0m);
+[33m  [0m 7   	  [32mif[0m (!a) [32mreturn[0m -[31m1[0m; [35m/*malloc failed*/[0m
+[33m->[0m 8   	  [32mfor[0m (i [4m=[0m [31m0[0m; i < [31m10[0m; i++){ [35m// so vai acessar ate a posicão [9][0m
+[33m  [0m 9   	    a[i] = i;
+[33m  [0m 10  	  }
+[33m  [0m 11  	  free(a);
+Target 0: (c1c) stopped.
+(lldb) [1G[2m(lldb) [22m[8Gr[1G[2m(lldb) [22m[9Gcontinue[1G[2m(lldb) [22m[16G[8Gbreakpoint set --file c1correto.c --line 8[1G[2m(lldb) [22m[50G[8Gcontinue[K[1G[2m(lldb) [22m[16G
+Process 61773 resuming
+Process 61773 exited with status = 0 (0x00000000) 
+(lldb) [1G[2m(lldb) [22m[8Gcontinue[1G[2m(lldb) [22m[16G[8Gr[K[1G[2m(lldb) [22m[9Gcontinue[1G[2m(lldb) [22m[16G[8Gbreakpoint set --file c1correto.c --line 8[1G[2m(lldb) [22m[50G[8Gquit[K[1G[2m(lldb) [22m[12G
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hlldb c1c[8Dexit    valgrind --leak-check=full ./c1c[?2004l
+
+==61782== Memcheck, a memory error detector
+==61782== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==61782== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==61782== Command: ./c1c
+==61782== 
+==61782== 
+==61782== HEAP SUMMARY:
+==61782==     in use at exit: 13,963 bytes in 161 blocks
+==61782==   total heap usage: 176 allocs, 15 frees, 18,747 bytes allocated
+==61782== 
+==61782== 2,048 bytes in 1 blocks are definitely lost in loss record 34 of 36
+==61782==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==61782==    by 0x100706079: objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::grow(unsigned int) (in /usr/lib/libobjc.A.dylib)
+==61782==    by 0x10070600D: objc::detail::DenseSetPair<char const*>* objc::DenseMapBase<objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >, char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::InsertIntoBucketImpl<char const*>(char const* const&, char const* const&, objc::detail::DenseSetPair<char const*>*) (in /usr/lib/libobjc.A.dylib)
+==61782==    by 0x100709EC1: __sel_registerName(char const*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==61782==    by 0x1006F7D4B: fixupMethodList(method_list_t*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==61782==    by 0x1006ED835: prepareMethodLists(objc_class*, method_list_t**, int, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==61782==    by 0x10070007C: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==61782==    by 0x1006FFB7B: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==61782==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==61782==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==61782==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==61782==    by 0x1006EBA1E: map_images_nolock (in /usr/lib/libobjc.A.dylib)
+==61782== 
+==61782== LEAK SUMMARY:
+==61782==    definitely lost: 2,048 bytes in 1 blocks
+==61782==    indirectly lost: 0 bytes in 0 blocks
+==61782==      possibly lost: 0 bytes in 0 blocks
+==61782==    still reachable: 0 bytes in 0 blocks
+==61782==         suppressed: 11,915 bytes in 160 blocks
+==61782== 
+==61782== For lists of detected and suppressed errors, rerun with: -s
+==61782== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 7 from 7)
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+

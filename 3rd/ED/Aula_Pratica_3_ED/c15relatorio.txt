@@ -1,0 +1,160 @@
+O problema no código é que a variável a é redefinida a cada iteração do loop for, 
+o que significa que a função inc() sempre recebe o valor 1 como argumento, 
+e não o valor incrementado da iteração anterior. 
+
+Para corrigir, podemos declarar a variável a fora do loop e passá-la 
+como argumento para a função inc().
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT ANTES DA CORREÇÃO
+
+Script started on Thu Apr  6 01:14:03 2023
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hexitvalgrind --leak-check=full ./c14c[33Dlldb c14c                        [24D[9Dgcc -g c14correto.c -o c14c[27Dvalgrind --leak-check=full ./c14[32Dlldb c14                        [24D[8Dgcc -g c14.c -o c14[P[9C [10D5.c -o c14[9D[1C[1C[1C[1C[1C[1C[1C[1C[1C 5[?2004l
+
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hllldb c15[?2004l
+
+(lldb) target create "c15"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c15' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gquit[1G[2m(lldb) [22m[12Gr[K[1G[2m(lldb) [22m[9Gquit[1G[2m(lldb) [22m[12Gcontinue[1G[2m(lldb) [22m[16G[8Gr[K[1G[2m(lldb) [22m[9Gbreakpoint set --file c14.c --line 11[1G[2m(lldb) [22m[45G14[P.[1G[2m(lldb) [22m[32G[1@5.[1G[2m(lldb) [22m[33G.c --line 11
+Breakpoint 1: where = c15`main + 39 at c15.c:11:10, address = 0x0000000100003f87
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 2620 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c15' (x86_64)
+Process 2620 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f87[0m c15`main(argc=1, argv=0x00007ffeefbff6d0) at [36mc15.c[0m:[33m11[0m:[33m10[0m
+[33m  [0m 8   	[32mint[0m main([32mint[0m argc, [32mchar[0m** argv) {
+[33m  [0m 9   	  [35m//sempre retorna a mesma coisa (a é inicializada a cada iteração)[0m
+[33m  [0m 10  	  [32mfor[0m([32mint[0m i=[31m1[0m; i < [31m5[0m; i++) {
+[33m->[0m 11  	     [32mint[0m [4ma[0m = [31m1[0m;
+[33m  [0m 12  	     a = inc(a);
+[33m  [0m 13  	  }
+[33m  [0m 14  	
+Target 0: (c15) stopped.
+(lldb) [1G[2m(lldb) [22m[8Goc[K[1G[2m(lldb) [22m[9G[K[1G[2m(lldb) [22m[8Gcontinue
+Process 2620 resuming
+Process 2620 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f87[0m c15`main(argc=1, argv=0x00007ffeefbff6d0) at [36mc15.c[0m:[33m11[0m:[33m10[0m
+[33m  [0m 8   	[32mint[0m main([32mint[0m argc, [32mchar[0m** argv) {
+[33m  [0m 9   	  [35m//sempre retorna a mesma coisa (a é inicializada a cada iteração)[0m
+[33m  [0m 10  	  [32mfor[0m([32mint[0m i=[31m1[0m; i < [31m5[0m; i++) {
+[33m->[0m 11  	     [32mint[0m [4ma[0m = [31m1[0m;
+[33m  [0m 12  	     a = inc(a);
+[33m  [0m 13  	  }
+[33m  [0m 14  	
+Target 0: (c15) stopped.
+(lldb) [1G[2m(lldb) [22m[8Gcontinue
+Process 2620 resuming
+Process 2620 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f87[0m c15`main(argc=1, argv=0x00007ffeefbff6d0) at [36mc15.c[0m:[33m11[0m:[33m10[0m
+[33m  [0m 8   	[32mint[0m main([32mint[0m argc, [32mchar[0m** argv) {
+[33m  [0m 9   	  [35m//sempre retorna a mesma coisa (a é inicializada a cada iteração)[0m
+[33m  [0m 10  	  [32mfor[0m([32mint[0m i=[31m1[0m; i < [31m5[0m; i++) {
+[33m->[0m 11  	     [32mint[0m [4ma[0m = [31m1[0m;
+[33m  [0m 12  	     a = inc(a);
+[33m  [0m 13  	  }
+[33m  [0m 14  	
+Target 0: (c15) stopped.
+(lldb) [1G[2m(lldb) [22m[8Gcontinue
+Process 2620 resuming
+Process 2620 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f87[0m c15`main(argc=1, argv=0x00007ffeefbff6d0) at [36mc15.c[0m:[33m11[0m:[33m10[0m
+[33m  [0m 8   	[32mint[0m main([32mint[0m argc, [32mchar[0m** argv) {
+[33m  [0m 9   	  [35m//sempre retorna a mesma coisa (a é inicializada a cada iteração)[0m
+[33m  [0m 10  	  [32mfor[0m([32mint[0m i=[31m1[0m; i < [31m5[0m; i++) {
+[33m->[0m 11  	     [32mint[0m [4ma[0m = [31m1[0m;
+[33m  [0m 12  	     a = inc(a);
+[33m  [0m 13  	  }
+[33m  [0m 14  	
+Target 0: (c15) stopped.
+(lldb) [1G[2m(lldb) [22m[8Gcontinue
+Process 2620 resuming
+Process 2620 exited with status = 1 (0x00000001) 
+(lldb) [1G[2m(lldb) [22m[8Gquit
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hlldb c15[8Dgcc -g c15.c -o c15[19Dexit               [15Dvalgrind --leak-check=full ./c14c  5[?2004l
+
+==2638== Memcheck, a memory error detector
+==2638== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2638== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==2638== Command: ./c15
+==2638== 
+==2638== 
+==2638== HEAP SUMMARY:
+==2638==     in use at exit: 13,963 bytes in 161 blocks
+==2638==   total heap usage: 175 allocs, 14 frees, 18,707 bytes allocated
+==2638== 
+==2638== LEAK SUMMARY:
+==2638==    definitely lost: 0 bytes in 0 blocks
+==2638==    indirectly lost: 0 bytes in 0 blocks
+==2638==      possibly lost: 0 bytes in 0 blocks
+==2638==    still reachable: 2,048 bytes in 1 blocks
+==2638==         suppressed: 11,915 bytes in 160 blocks
+==2638== Reachable blocks (those to which a pointer was found) are not shown.
+==2638== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==2638== 
+==2638== For lists of detected and suppressed errors, rerun with: -s
+==2638== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 7 from 7)
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hvalgrind --leak-check=full ./c15[32Dlldb c15                        [24D[8Dgcc -g c15.c -o c15[19Dexit               [15Dvalgrind --leak-check=full ./c14c[33Dlldb c14c                        [24D[9Dgcc -g c14correto.c -o c14c[P[17C [18D5correto.c -o c14c[17D[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1Cc 5c[?2004l
+
+[1m[7m%[27m[1m[0m                                                                                                                           
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT DEPOIS DA CORREÇÃO 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hllldb c15c[?2004l
+
+(lldb) target create "c15c"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c15c' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 2661 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c15c' (x86_64)
+Process 2661 exited with status = 1 (0x00000001) 
+(lldb) [1G[2m(lldb) [22m[8Gquit
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hlldb c15c[9Dgcc -g c15correto.c -o c15c[27Dvalgrind --leak-check=full ./c15c[?2004l
+
+==2666== Memcheck, a memory error detector
+==2666== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2666== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==2666== Command: ./c15c
+==2666== 
+==2666== 
+==2666== HEAP SUMMARY:
+==2666==     in use at exit: 13,963 bytes in 161 blocks
+==2666==   total heap usage: 175 allocs, 14 frees, 18,707 bytes allocated
+==2666== 
+==2666== LEAK SUMMARY:
+==2666==    definitely lost: 0 bytes in 0 blocks
+==2666==    indirectly lost: 0 bytes in 0 blocks
+==2666==      possibly lost: 0 bytes in 0 blocks
+==2666==    still reachable: 2,048 bytes in 1 blocks
+==2666==         suppressed: 11,915 bytes in 160 blocks
+==2666== Reachable blocks (those to which a pointer was found) are not shown.
+==2666== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==2666== 
+==2666== For lists of detected and suppressed errors, rerun with: -s
+==2666== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 7 from 7)
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004heexit[?2004l
+
+
+Script done on Thu Apr  6 01:16:02 2023

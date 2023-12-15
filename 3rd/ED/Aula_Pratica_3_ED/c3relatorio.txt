@@ -1,0 +1,158 @@
+A memória alocada para o ponteiro inteiro 'a' usando a função malloc() dentro do laço for 
+não está sendo liberada corretamente. À medida que o laço for itera 10 vezes, 
+a memória alocada para 'a' é sobrescrita a cada vez, e somente o último bloco 
+de memória alocado para 'a' está sendo liberado fora do laço. Isso pode levar 
+a um vazamento de memória.
+
+Para corrigir, simplesmente movemos o free(a) para dentro do for,
+uma solução alternativa seria tirar o malloc de dentro do for e alocar a apenas
+uma única vez.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT ANTES DA CORREÇÃO
+
+Script started on Wed Apr  5 23:16:45 2023
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hexitvalgrind --leak-check=full ./c3c[32Dlldb c3c                        [24D[8Dgcc -g c3correto.c -o c3c[25Dlldb c3c                 [17D [?2004l
+
+(lldb) target create "c3"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c3' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gquit[1G[2m(lldb) [22m[12Gthread step-out[1G[2m(lldb) [22m[23G[8Gnext[K[1G[2m(lldb) [22m[12Gr[K[1G[2m(lldb) [22m[9Gthread until 7[1G[2m(lldb) [22m[22G[8Gbreakpoint set --file c3correto.c --line 9[1G[2m(lldb) [22m[50G[8Gquit[K[1G[2m(lldb) [22m[12Gthread until 12[1G[2m(lldb) [22m[23G7[K[1G[2m(lldb) [22m[22G[8Gcontinue[K[1G[2m(lldb) [22m[16G[8Gquit[K[1G[2m(lldb) [22m[12Gcontinue[1G[2m(lldb) [22m[16G[8Gr[K[1G[2m(lldb) [22m[9Gbreakpoint delete 1[1G[2m(lldb) [22m[27G[8G[11Pd[16G[1G[2m(lldb) [22m[16G[8Gbreakpoint list[1G[2m(lldb) [22m[23G[8Gcontinue[K[1G[2m(lldb) [22m[16G[8Gfinish[K[1G[2m(lldb) [22m[14G[8Gthread step-over[1G[2m(lldb) [22m[24G[19G over[1G[2m(lldb) [22m[24G[8Gjump[K[1G[2m(lldb) [22m[12Gthread jump[1G[2m(lldb) [22m[19Guntil 12[1G[2m(lldb) [22m[23G1[1G[2m(lldb) [22m[23G<11>[1G[2m(lldb) [22m[25G[8Gcontinue[K[1G[2m(lldb) [22m[16G[8Gr[K[1G[2m(lldb) [22m[9Gbreakpoint set --file c3.c --line 9[1G[2m(lldb) [22m[43G[8Gquit[K[1G[2m(lldb) [22m[12Gbreakpoint set --file c3.c --line 9[1G[2m(lldb) [22m[43G
+Breakpoint 1: where = c3`main + 39 at c3.c:9:9, address = 0x0000000100003f57
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 63311 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c3' (x86_64)
+Process 63311 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f57[0m c3`main(argc=1, argv=0x00007ffeefbff6d0) at [36mc3.c[0m:[33m9[0m:[33m9[0m
+[33m  [0m 6   	  [32mint[0m *a;
+[33m  [0m 7   	
+[33m  [0m 8   	  [32mfor[0m (i=[31m0[0m; i < [31m10[0m; i++){
+[33m->[0m 9   	    a = [4mmalloc[0m([32msizeof[0m([32mint[0m) * [31m100[0m);
+[33m  [0m 10  	  }
+[33m  [0m 11  	
+[33m  [0m 12  	  [35m//nao libera a memoria do a corretamente pois está fora do for[0m
+Target 0: (c3) stopped.
+(lldb) [1G[2m(lldb) [22m[8Gquit
+Quitting LLDB will kill one or more processes. Do you really want to proceed: [Y/n] y
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hlldb c3exit   valgrind --leak-check=full ./c3c [?2004l
+
+==63322== Memcheck, a memory error detector
+==63322== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==63322== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==63322== Command: ./c3
+==63322== 
+==63322== 
+==63322== HEAP SUMMARY:
+==63322==     in use at exit: 17,563 bytes in 170 blocks
+==63322==   total heap usage: 185 allocs, 15 frees, 22,707 bytes allocated
+==63322== 
+==63322== 2,048 bytes in 1 blocks are definitely lost in loss record 34 of 37
+==63322==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==63322==    by 0x100706079: objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::grow(unsigned int) (in /usr/lib/libobjc.A.dylib)
+==63322==    by 0x10070600D: objc::detail::DenseSetPair<char const*>* objc::DenseMapBase<objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >, char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::InsertIntoBucketImpl<char const*>(char const* const&, char const* const&, objc::detail::DenseSetPair<char const*>*) (in /usr/lib/libobjc.A.dylib)
+==63322==    by 0x100709EC1: __sel_registerName(char const*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==63322==    by 0x1006F7D4B: fixupMethodList(method_list_t*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==63322==    by 0x1006ED835: prepareMethodLists(objc_class*, method_list_t**, int, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==63322==    by 0x10070007C: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==63322==    by 0x1006FFB7B: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==63322==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==63322==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==63322==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==63322==    by 0x1006EBA1E: map_images_nolock (in /usr/lib/libobjc.A.dylib)
+==63322== 
+==63322== 3,600 bytes in 9 blocks are definitely lost in loss record 37 of 37
+==63322==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==63322==    by 0x100003F60: main (c3.c:9)
+==63322== 
+==63322== LEAK SUMMARY:
+==63322==    definitely lost: 5,648 bytes in 10 blocks
+==63322==    indirectly lost: 0 bytes in 0 blocks
+==63322==      possibly lost: 0 bytes in 0 blocks
+==63322==    still reachable: 0 bytes in 0 blocks
+==63322==         suppressed: 11,915 bytes in 160 blocks
+==63322== 
+==63322== For lists of detected and suppressed errors, rerun with: -s
+==63322== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 7 from 7)
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hvalgrind --leak-check=full ./c3[31Dlldb c3                        [24Dexit   valgrind --leak-check=full ./c3c[32Dlldb c3c                        [24D[8Dgcc -g c3correto.c -o c3c[?2004l
+
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT DEPOIS DA CORREÇÃO
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hgcc -g c3correto.c -o c3c[25Dvalgrind --leak-check=full ./c3[31Dlldb c3                        [24Dc[?2004l
+
+(lldb) target create "c3c"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c3c' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gquit[1G[2m(lldb) [22m[12Gr[K[1G[2m(lldb) [22m[9Gbreakpoint set --file c3.c --line 9[1G[2m(lldb) [22m[43G[8Gquit[K[1G[2m(lldb) [22m[12Gbreakpoint set --file c3.c --line 9[1G[2m(lldb) [22m[43G[8Gquit[K[1G[2m(lldb) [22m[12Gthread step-out[1G[2m(lldb) [22m[23G[8Gnext[K[1G[2m(lldb) [22m[12Gr[K[1G[2m(lldb) [22m[9Gthread until 7[1G[2m(lldb) [22m[22G[8Gbreakpoint set --file c3correto.c --line 9[1G[2m(lldb) [22m[50G
+Breakpoint 1: where = c3c`main + 39 at c3correto.c:9:9, address = 0x0000000100003f57
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 63353 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c3c' (x86_64)
+Process 63353 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f57[0m c3c`main(argc=1, argv=0x00007ffeefbff6d0) at [36mc3correto.c[0m:[33m9[0m:[33m9[0m
+[33m  [0m 6   	  [32mint[0m *a;
+[33m  [0m 7   	
+[33m  [0m 8   	  [32mfor[0m (i=[31m0[0m; i < [31m10[0m; i++){
+[33m->[0m 9   	    a = [4mmalloc[0m([32msizeof[0m([32mint[0m) * [31m100[0m);
+[33m  [0m 10  	    free(a); [35m// libera a memória alocada para a após cada iteração[0m
+[33m  [0m 11  	  }
+[33m  [0m 12  	  [32mreturn[0m [31m0[0m;
+Target 0: (c3c) stopped.
+(lldb) [1G[2m(lldb) [22m[8Gquit
+Quitting LLDB will kill one or more processes. Do you really want to proceed: [Y/n] y
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hlldb c3c[8Dgcc -g c3correto.c -o c3c[25Dvalgrind --leak-check=full ./c3c[?2004l
+
+==63385== Memcheck, a memory error detector
+==63385== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==63385== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==63385== Command: ./c3c
+==63385== 
+==63385== 
+==63385== HEAP SUMMARY:
+==63385==     in use at exit: 13,963 bytes in 161 blocks
+==63385==   total heap usage: 185 allocs, 24 frees, 22,707 bytes allocated
+==63385== 
+==63385== 2,048 bytes in 1 blocks are definitely lost in loss record 34 of 36
+==63385==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==63385==    by 0x100706079: objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::grow(unsigned int) (in /usr/lib/libobjc.A.dylib)
+==63385==    by 0x10070600D: objc::detail::DenseSetPair<char const*>* objc::DenseMapBase<objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >, char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::InsertIntoBucketImpl<char const*>(char const* const&, char const* const&, objc::detail::DenseSetPair<char const*>*) (in /usr/lib/libobjc.A.dylib)
+==63385==    by 0x100709EC1: __sel_registerName(char const*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==63385==    by 0x1006F7D4B: fixupMethodList(method_list_t*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==63385==    by 0x1006ED835: prepareMethodLists(objc_class*, method_list_t**, int, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==63385==    by 0x10070007C: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==63385==    by 0x1006FFB7B: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==63385==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==63385==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==63385==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==63385==    by 0x1006EBA1E: map_images_nolock (in /usr/lib/libobjc.A.dylib)
+==63385== 
+==63385== LEAK SUMMARY:
+==63385==    definitely lost: 2,048 bytes in 1 blocks
+==63385==    indirectly lost: 0 bytes in 0 blocks
+==63385==      possibly lost: 0 bytes in 0 blocks
+==63385==    still reachable: 0 bytes in 0 blocks
+==63385==         suppressed: 11,915 bytes in 160 blocks
+==63385== 
+==63385== For lists of detected and suppressed errors, rerun with: -s
+==63385== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 7 from 7)
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004heexit[?2004l
+
+
+Script done on Wed Apr  5 23:18:01 2023

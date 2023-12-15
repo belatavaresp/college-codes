@@ -1,0 +1,79 @@
+O problema com esse código é que ele está causando um vazamento de memória ao 
+alocar continuamente memória sem liberá-la. 
+
+Para corrigir o problema, é so adicionar um free() no final do loop para liberar 
+a memória alocada antes de alocar mais.
+
+ATENÇÃO: Não compilei o programa nem pelo debugger nem pelo valgrind pois, por ser 
+um loop infinito que consome muita memória, meu computador teve problemas em processá-lo.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT
+
+Script started on Thu Apr  6 00:34:26 2023
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hvalgrind --leak-check=full ./c10[32Dlldb c10                        [24D[8Dgcc -g c10.c -o c10[?2004l
+
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hgcc -g c10.c -o c10[19Dvalgrind --leak-check=full ./c10[32Dlldb c10                        [24D[8Dgcc -g c10.c -o c10c.c -o c10[9Do.c -o c10[9Dr.c -o c10[9Dr.c -o c10[9De.c -o c10[9Dt.c -o c10[9Do.c -o c10[9D[1C[1C[1C[1C[1C[1C[1C[1C[1Cc[?2004l
+
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hllldb c10[?2004l
+
+(lldb) target create "c10"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c10' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gquit[1G[2m(lldb) [22m[12Gr[K[1G[2m(lldb) [22m[9Gbreakpoint set --file c10.c --line 10[1G[2m(lldb) [22m[45G
+Breakpoint 1: where = c10`main + 29 at c10.c:10:39, address = 0x0000000100003f5d
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 883 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c10' (x86_64)
+Process 883 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f5d[0m c10`main at [36mc10.c[0m:[33m10[0m:[33m39[0m
+[33m  [0m 7   	        [32mwhile[0m([31m1[0m)
+[33m  [0m 8   	        {
+[33m  [0m 9   	                p = malloc([31m128[0m);
+[33m->[0m 10  	                printf("%ld\n", ([32mlong[0m)[4mp[0m);
+[33m  [0m 11  	                [35m// lack of free[0m
+[33m  [0m 12  	        }
+[33m  [0m 13  	        [32mreturn[0m ([31m0[0m);
+Target 0: (c10) stopped.
+(lldb) [1G[2m(lldb) [22m[8Gquit
+Quitting LLDB will kill one or more processes. Do you really want to proceed: [Y/n] y
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hllldb 1 c10c[?2004l
+
+(lldb) target create "c10c"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c10c' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gquit[1G[2m(lldb) [22m[12Gr[K[1G[2m(lldb) [22m[9Gbreakpoint set --file c10.c --line 10[1G[2m(lldb) [22m[45G[1@c.[1G[2m(lldb) [22m[34G[1@o.[1G[2m(lldb) [22m[35G[1@r.[1G[2m(lldb) [22m[36G[1@r.[1G[2m(lldb) [22m[37G[1@e.[1G[2m(lldb) [22m[38G[1@t.[1G[2m(lldb) [22m[39G[1@o.[1G[2m(lldb) [22m[40G.c --line 10[K[1G[2m(lldb) [22m[51G[K[1G[2m(lldb) [22m[50G8
+Breakpoint 1: where = c10c`main + 29 at c10correto.c:8:31, address = 0x0000000100003f3d
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 926 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c10c' (x86_64)
+Process 926 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f3d[0m c10c`main at [36mc10correto.c[0m:[33m8[0m:[33m31[0m
+[33m  [0m 5   	    [32mint[0m* p;
+[33m  [0m 6   	    [32mwhile[0m ([31m1[0m) {
+[33m  [0m 7   	        p = malloc([31m128[0m);
+[33m->[0m 8   	        printf("%ld\n", ([32mlong[0m)[4mp[0m);
+[33m  [0m 9   	        free(p);
+[33m  [0m 10  	    }
+[33m  [0m 11  	    [32mreturn[0m [31m0[0m;
+Target 0: (c10c) stopped.
+(lldb) [1G[2m(lldb) [22m[8Gquit
+Quitting LLDB will kill one or more processes. Do you really want to proceed: [Y/n] y
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004heexit[?2004l
+
+
+Script done on Thu Apr  6 00:36:08 2023

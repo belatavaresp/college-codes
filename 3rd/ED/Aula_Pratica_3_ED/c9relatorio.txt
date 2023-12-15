@@ -1,0 +1,162 @@
+o erro no programa é o acesso inválido ao ponteiro x e a falta da liberação de sua memória.
+A linha "x[10] = 0" tenta acessar um espaço de memória além do espaço alocado por 
+x (que vai de x[0] a x[9]). Isso pode resultar em um comportamento indefinido do programa.
+
+Para consertar o código apenas mudamos x[10] = 0 --> x[9] = 0
+e inserimos free(x) no fim de f()
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT ANTES DA CORREÇÃO
+
+Script started on Thu Apr  6 00:20:38 2023
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hexitvalgrind --leak-check=full ./c8c[32Dlldb c8c                        [24D[8Dgcc -g c8correto.c -o c8c[23Dvalgrind --leak-check=full ./c8[31Dlldb c8                        [24Dgcc -g c8.c -o c8.c -o c8 [9D9.c -o c8[8D[1C[1C[1C[1C[1C[1C[1C8 988 c8[1C 9[?2004l
+
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hgcc -g c9.c -o c9[17Dexit             [13Dvalgrind --leak-check=full ./c8c[32Dlldb c8c                        [24D  9[?2004l
+
+(lldb) target create "c9"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c9' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 65655 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c9' (x86_64)
+Process 65655 exited with status = 0 (0x00000000) 
+(lldb) [1G[2m(lldb) [22m[8Gr[1G[2m(lldb) [22m[9Gquit[1G[2m(lldb) [22m[12Gr[K[1G[2m(lldb) [22m[9Gquit[1G[2m(lldb) [22m[12Gcontinue[1G[2m(lldb) [22m[16G[8Gquit[K[1G[2m(lldb) [22m[12Gr[K[1G[2m(lldb) [22m[9Gbreakpoint set --file c8.c --line 6[1G[2m(lldb) [22m[43G[P.[1G[2m(lldb) [22m[31G[1@9.[1G[2m(lldb) [22m[32G.c --line 
+Breakpoint 1: where = c9`f + 22 at c9.c:6:1, address = 0x0000000100003f56
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 65668 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c9' (x86_64)
+Process 65668 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f56[0m c9`f at [36mc9.c[0m:[33m6[0m:[33m1[0m
+[33m  [0m 3   	[32mvoid[0m f([32mvoid[0m) {
+[33m  [0m 4   	
+[33m  [0m 5   	[32mint[0m* x = malloc([31m10[0m * [32msizeof[0m([32mint[0m));
+[33m->[0m 6   	[4mx[0m[[31m10[0m] = [31m0[0m; [35m// access to non allocated memory[0m
+[33m  [0m 7   	[35m// lack of free[0m
+[33m  [0m 8   	}
+[33m  [0m 9   	
+Target 0: (c9) stopped.
+(lldb) [1G[2m(lldb) [22m[8Gcontinue
+Process 65668 resuming
+Process 65668 exited with status = 0 (0x00000000) 
+(lldb) [1G[2m(lldb) [22m[8Gquit
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hlldb c9gcc -g c9.c -o c9[17Dexit             [13Dvalgrind --leak-check=full ./c8c  9[?2004l
+
+==65678== Memcheck, a memory error detector
+==65678== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==65678== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==65678== Command: ./c9
+==65678== 
+==65678== Invalid write of size 4
+==65678==    at 0x100003F5A: f (c9.c:6)
+==65678==    by 0x100003F83: main (c9.c:12)
+==65678==  Address 0x1008285c8 is 0 bytes after a block of size 40 alloc'd
+==65678==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==65678==    by 0x100003F51: f (c9.c:5)
+==65678==    by 0x100003F83: main (c9.c:12)
+==65678== 
+==65678== 
+==65678== HEAP SUMMARY:
+==65678==     in use at exit: 14,003 bytes in 162 blocks
+==65678==   total heap usage: 176 allocs, 14 frees, 18,747 bytes allocated
+==65678== 
+==65678== 40 bytes in 1 blocks are definitely lost in loss record 14 of 37
+==65678==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==65678==    by 0x100003F51: f (c9.c:5)
+==65678==    by 0x100003F83: main (c9.c:12)
+==65678== 
+==65678== 2,048 bytes in 1 blocks are definitely lost in loss record 35 of 37
+==65678==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==65678==    by 0x100706079: objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::grow(unsigned int) (in /usr/lib/libobjc.A.dylib)
+==65678==    by 0x10070600D: objc::detail::DenseSetPair<char const*>* objc::DenseMapBase<objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >, char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::InsertIntoBucketImpl<char const*>(char const* const&, char const* const&, objc::detail::DenseSetPair<char const*>*) (in /usr/lib/libobjc.A.dylib)
+==65678==    by 0x100709EC1: __sel_registerName(char const*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==65678==    by 0x1006F7D4B: fixupMethodList(method_list_t*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==65678==    by 0x1006ED835: prepareMethodLists(objc_class*, method_list_t**, int, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==65678==    by 0x10070007C: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==65678==    by 0x1006FFB7B: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==65678==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+
+==65678==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==65678==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==65678==    by 0x1006EBA1E: map_images_nolock (in /usr/lib/libobjc.A.dylib)
+==65678== 
+==65678== LEAK SUMMARY:
+==65678==    definitely lost: 2,088 bytes in 2 blocks
+==65678==    indirectly lost: 0 bytes in 0 blocks
+==65678==      possibly lost: 0 bytes in 0 blocks
+==65678==    still reachable: 0 bytes in 0 blocks
+==65678==         suppressed: 11,915 bytes in 160 blocks
+==65678== 
+==65678== For lists of detected and suppressed errors, rerun with: -s
+==65678== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 7 from 7)
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hvalgrind --leak-check=full ./c9[31Dlldb c9                        [24Dgcc -g c9.c -o c9[17Dexit             [13Dvalgrind --leak-check=full ./c8c[32Dlldb c8c                        [24D[8Dgcc -g c8correto.c -o c8c[P[16C [17D9correto.c -o c8c[16D[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C8c 98c8c c8c[1Cc 9c[?2004l
+
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT DEPOIS DA CORREÇÃO
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hgcc -g c9correto.c -o c9c[25Dvalgrind --leak-check=full ./c9[31Dlldb c9                        [24Dc[?2004l
+
+(lldb) target create "c9c"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c9c' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 65704 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c9c' (x86_64)
+Process 65704 exited with status = 0 (0x00000000) 
+(lldb) [1G[2m(lldb) [22m[8Gquit
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hlldb c9c[8Dgcc -g c9correto.c -o c9c[25Dvalgrind --leak-check=full ./c9c[?2004l
+
+==65713== Memcheck, a memory error detector
+==65713== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==65713== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==65713== Command: ./c9c
+==65713== 
+==65713== 
+==65713== HEAP SUMMARY:
+==65713==     in use at exit: 13,963 bytes in 161 blocks
+==65713==   total heap usage: 176 allocs, 15 frees, 18,747 bytes allocated
+==65713== 
+==65713== 2,048 bytes in 1 blocks are definitely lost in loss record 34 of 36
+==65713==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==65713==    by 0x100706079: objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::grow(unsigned int) (in /usr/lib/libobjc.A.dylib)
+==65713==    by 0x10070600D: objc::detail::DenseSetPair<char const*>* objc::DenseMapBase<objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >, char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::InsertIntoBucketImpl<char const*>(char const* const&, char const* const&, objc::detail::DenseSetPair<char const*>*) (in /usr/lib/libobjc.A.dylib)
+==65713==    by 0x100709EC1: __sel_registerName(char const*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==65713==    by 0x1006F7D4B: fixupMethodList(method_list_t*, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==65713==    by 0x1006ED835: prepareMethodLists(objc_class*, method_list_t**, int, bool, bool) (in /usr/lib/libobjc.A.dylib)
+==65713==    by 0x10070007C: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==65713==    by 0x1006FFB7B: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==65713==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==65713==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==65713==    by 0x1006FFB54: realizeClassWithoutSwift(objc_class*, objc_class*) (in /usr/lib/libobjc.A.dylib)
+==65713==    by 0x1006EBA1E: map_images_nolock (in /usr/lib/libobjc.A.dylib)
+==65713== 
+==65713== LEAK SUMMARY:
+==65713==    definitely lost: 2,048 bytes in 1 blocks
+==65713==    indirectly lost: 0 bytes in 0 blocks
+==65713==      possibly lost: 0 bytes in 0 blocks
+==65713==    still reachable: 0 bytes in 0 blocks
+==65713==         suppressed: 11,915 bytes in 160 blocks
+==65713== 
+==65713== For lists of detected and suppressed errors, rerun with: -s
+==65713== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 7 from 7)
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004heexit[?2004l
+
+
+Script done on Thu Apr  6 00:22:12 2023

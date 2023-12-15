@@ -1,0 +1,31 @@
+BEBIDAS (100 ml): 
+1. Energético → 48kcal, 12g carboidrato, 0g gordura, 0g proteína → R$ 4,90
+2. Refresco → 13.5kcal, 3.4g carboidrato, 0g gordura, 0g proteína → R$ 0,75
+3. Suco polpa → 40kcal, 8.8g carboidrato, 0g gordura, 0.5g proteína → R$ 2,45
+4. Refrigerante → 42.5kcal, 10.6g carboidrato, 0g gordura, 0g proteína → R$ 3,20
+5. Café → 12kcal, 0.6g carboidrato, 1g gordura, 1g proteína → R$ 1,10
+6. Leite → 40.5kcal, 5g carboidrato, 0.6g gordura, 2.9g proteína → R$ 2,00
+7. Capuccino → 41kcal, 8.5g carboidrato, 0.7g gordura, 0.35g proteína → R$ 4,90
+8. Chá mate → 37kcal, 9g carboidrato, 0g gordura, 0g proteína → R$ 7,50
+
+SALGADOS (100g):
+9. Coxinha de frango → 280kcal, 34.5 carboidrato, 11.8g gordura, 9.6g proteína → R$ 3,05
+10. Empada de frango → 358kcal, 47.5g carboidrato, 15.6g gordura, 6.9g proteína → R$ 3,05
+11. Enrolado presunto e queijo → 208.4kcal, 8.5g carboidrato, 11.5g gordura, 17.76g proteína → R$ 3,05
+12. Pastel assado frango → 382kcal, 24g carboidrato, 22.9g gordura, 8.36g proteína → R$ 3,05
+13. Esfirra → 254kcal, 36.8g carboidrato, 5.5g gordura, 14.16g proteína → R$ 4,90
+14. Folhado → 209.9kcal, 24.5g carboidrato, 18.2g gordura, 7.36g proteína → R$ 7,00
+15. Hamburgão → 247.6kcal, 31.3g carboidrato, 8.6g gordura, 10.96g proteína → R$ 7,00
+16. Pão de batata recheado → 260kcal, 37.5g carboidrato, 7.5g gordura, 106g proteína → R$ 6,50
+17. Pão de queijo → 294kcal, 32g carboidrato, 15.6g gordura, 7.26g proteína → R$ 1,35
+18. Salgado integral/ sem gluten/ vegano → 317.5kcal, 47.5g carboidrato, 12.2g gordura, 5.26g proteína → R$ 3,65
+19. Chips → 552kcal, 48g carboidrato, 36.4g gordura, 6.46g proteína → R$ 5,00
+
+DOCES(100g):
+20. Chiclete/ bala → 200kcal, 56.6g carboidrato, 0g gordura, 06g proteína → R$ 0,25
+21. Trento → 453.1kcal, 53.1g carboidrato, 23.7g gordura, 6.86g proteína → R$ 3,00
+22. Palha italiana → 231.1kcal, 18.2g carboidrato, 12.7g gordura, 10.56g proteína → R$ 6,00
+23. Alfajor → 412.5kcal, 70.8g carboidrato, 17.1g gordura, 3.96g proteína → R$ 7,00
+24. Paçoca → 487kcal, 52.4g carboidrato, 26.1g gordura, 166g proteína → R$ 1,50
+25. Sorvete → 180kcal, 25g carboidrato, 7.6g gordura, 2.86g proteína → R$ 9,00
+26. Bolo → 410kcal, 54.7g carboidrato, 18.5g gordura, 6.26g proteína → R$ 1,35

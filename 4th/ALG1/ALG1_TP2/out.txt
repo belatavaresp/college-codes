@@ -1,0 +1,4 @@
+Dijkstra Execution Time: 1.703358 seconds
+KruskalYears Execution Time: 0.490821 seconds
+KruskalCost Execution Time: 0.467640 seconds
+Sum: 2.661819 seconds

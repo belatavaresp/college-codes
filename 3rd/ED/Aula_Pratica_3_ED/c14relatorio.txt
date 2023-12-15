@@ -1,0 +1,205 @@
+O problema no código é que a variável "fact" não foi inicializada antes de ser usada 
+no loop for, o que pode levar a um comportamento indefinido, pois não sabemos o valor 
+que a variável "fact" está assumindo. 
+
+Para corrigir o código, é só inicializar "fact" como 0! = 1 no início do programa.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT ANTES DA CORREÇÃO
+
+Script started on Thu Apr  6 01:07:24 2023
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hexitlldb c14[8Dgcc -g c14.c -o c14[?2004l
+
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hgcc -g c14.c -o c14[19Dexit               [15Dlldb c14[?2004l
+
+(lldb) target create "c14"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c14' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gquit[1G[2m(lldb) [22m[12Gbreakpoint set --file c14.c --line 10[1G[2m(lldb) [22m[45G[K[1G[2m(lldb) [22m[44G1
+Breakpoint 1: where = c14`main + 69 at c14.c:11:12, address = 0x0000000100003f25
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 2318 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c14' (x86_64)
+Positive integer:2
+
+Process 2318 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f25[0m c14`main at [36mc14.c[0m:[33m11[0m:[33m12[0m
+[33m  [0m 8   	  
+[33m  [0m 9   	  [35m//fact não foi inicializada como 0![0m
+[33m  [0m 10  	  [32mfor[0m(i = [31m1[0m; i<=n; i++) 
+[33m->[0m 11  	    fact = [4mfact[0m*i;
+[33m  [0m 12  	
+[33m  [0m 13  	  printf("Factorial %d = %d\n", n, fact);
+[33m  [0m 14  	}
+Target 0: (c14) stopped.
+(lldb) [1G[2m(lldb) [22m[8Gcontinue
+Process 2318 resuming
+Process 2318 stopped
+* thread #1, queue = [32m'com.apple.main-thread'[0m, stop reason = [31mbreakpoint 1.1[0m
+    frame #0: [33m0x0000000100003f25[0m c14`main at [36mc14.c[0m:[33m11[0m:[33m12[0m
+[33m  [0m 8   	  
+[33m  [0m 9   	  [35m//fact não foi inicializada como 0![0m
+[33m  [0m 10  	  [32mfor[0m(i = [31m1[0m; i<=n; i++) 
+[33m->[0m 11  	    fact = [4mfact[0m*i;
+[33m  [0m 12  	
+[33m  [0m 13  	  printf("Factorial %d = %d\n", n, fact);
+[33m  [0m 14  	}
+Target 0: (c14) stopped.
+(lldb) [1G[2m(lldb) [22m[8Gcontinue
+Process 2318 resuming
+Factorial 2 = -545264256
+
+Process 2318 exited with status = 0 (0x00000000) 
+(lldb) [1G[2m(lldb) [22m[8Gquit
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hlldb c14[8Dgcc -g c14.c -o c14[19Dexit               [15Dlldb c14[8Dgcc -g c14.c -o c14[19Dexit               [15Dvalgrind --leak-check=full ./c13c  4[?2004l
+
+==2343== Memcheck, a memory error detector
+==2343== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2343== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==2343== Command: ./c14
+==2343== 
+Positive integer:2
+==2343== Conditional jump or move depends on uninitialised value(s)
+==2343==    at 0x1003C6135: __vfprintf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003EAAD2: __v2printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C32B1: vfprintf_l (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C141D: printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x100003F50: main (c14.c:13)
+==2343== 
+==2343== Conditional jump or move depends on uninitialised value(s)
+==2343==    at 0x1003C7A07: __ultoa (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C4D75: __vfprintf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003EAAD2: __v2printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C32B1: vfprintf_l (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C141D: printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x100003F50: main (c14.c:13)
+==2343== 
+==2343== Conditional jump or move depends on uninitialised value(s)
+==2343==    at 0x1003C7A4D: __ultoa (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C4D75: __vfprintf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003EAAD2: __v2printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C32B1: vfprintf_l (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C141D: printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x100003F50: main (c14.c:13)
+==2343== 
+==2343== Conditional jump or move depends on uninitialised value(s)
+==2343==    at 0x1003C7AB5: __ultoa (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C4D75: __vfprintf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003EAAD2: __v2printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C32B1: vfprintf_l (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C141D: printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x100003F50: main (c14.c:13)
+==2343== 
+==2343== Conditional jump or move depends on uninitialised value(s)
+==2343==    at 0x100614108: _platform_memchr$VARIANT$Base (in /usr/lib/system/libsystem_platform.dylib)
+==2343==    by 0x1003BD7B4: __sfvwrite (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C5CCB: __vfprintf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003EAAD2: __v2printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C32B1: vfprintf_l (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C141D: printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x100003F50: main (c14.c:13)
+==2343== 
+==2343== Syscall param write(buf) points to uninitialised byte(s)
+==2343==    at 0x1005CAE56: write$NOCANCEL (in /usr/lib/system/libsystem_kernel.dylib)
+==2343==    by 0x1003C236F: _swrite (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003BB0C6: __sflush (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003BD86F: __sfvwrite (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C74FF: __vfprintf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003EAAD2: __v2printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C32B1: vfprintf_l (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C141D: printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x100003F50: main (c14.c:13)
+==2343==  Address 0x1008285ae is 14 bytes inside a block of size 4,096 alloc'd
+==2343==    at 0x100124545: malloc (in /usr/local/Cellar/valgrind/HEAD-1ab162e/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==2343==    by 0x1003BE367: __smakebuf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003D1C4D: __swsetup (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003EA94E: __v2printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C32B1: vfprintf_l (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x1003C141D: printf (in /usr/lib/system/libsystem_c.dylib)
+==2343==    by 0x100003EFC: main (c14.c:6)
+==2343== 
+Factorial 2 = 153268032
+==2343== 
+==2343== HEAP SUMMARY:
+==2343==     in use at exit: 22,155 bytes in 163 blocks
+==2343==   total heap usage: 177 allocs, 14 frees, 26,899 bytes allocated
+==2343== 
+==2343== LEAK SUMMARY:
+==2343==    definitely lost: 0 bytes in 0 blocks
+==2343==    indirectly lost: 0 bytes in 0 blocks
+==2343==      possibly lost: 0 bytes in 0 blocks
+==2343==    still reachable: 6,144 bytes in 2 blocks
+==2343==         suppressed: 16,011 bytes in 161 blocks
+==2343== Reachable blocks (those to which a pointer was found) are not shown.
+==2343== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==2343== 
+==2343== Use --track-origins=yes to see where uninitialised values come from
+==2343== For lists of detected and suppressed errors, rerun with: -s
+==2343== ERROR SUMMARY: 14 errors from 6 contexts (suppressed: 7 from 7)
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hvalgrind --leak-check=full ./c14[32Dlldb c14                        [24D[8Dgcc -g c14.c -o c14[19Dexit               [15Dlldb c14[8Dgcc -g c14.c -o c14[19Dexit               [15Dvalgrind --leak-check=full ./c13c[33Dlldb c13c                        [24D[9Dgcc -g c13correto.c -o c13c[P[17C [18D4correto.c -o c13c[17D[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1Cc 4c[?2004l
+
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT DEPOIS DA CORREÇÃO
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hllldb c14c[?2004l
+
+(lldb) target create "c14c"
+Current executable set to '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c14c' (x86_64).
+(lldb) [1G[2m(lldb) [22m[8Gr
+Process 2369 launched: '/Users/belatavaresp/Documents/GitHub/Aula_Pratica_3_ED/c14c' (x86_64)
+Positive integer:2
+
+Factorial 2 = 2
+
+Process 2369 exited with status = 0 (0x00000000) 
+(lldb) [1G[2m(lldb) [22m[8Gquit
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004hlldb c14c[9Dgcc -g c14correto.c -o c14c[27Dvalgrind --leak-check=full ./c14c[?2004l
+
+==2381== Memcheck, a memory error detector
+==2381== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2381== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==2381== Command: ./c14c
+==2381== 
+Positive integer:2
+Factorial 2 = 2
+==2381== 
+==2381== HEAP SUMMARY:
+==2381==     in use at exit: 22,155 bytes in 163 blocks
+==2381==   total heap usage: 177 allocs, 14 frees, 26,899 bytes allocated
+==2381== 
+==2381== LEAK SUMMARY:
+==2381==    definitely lost: 0 bytes in 0 blocks
+==2381==    indirectly lost: 0 bytes in 0 blocks
+==2381==      possibly lost: 0 bytes in 0 blocks
+==2381==    still reachable: 6,144 bytes in 2 blocks
+==2381==         suppressed: 16,011 bytes in 161 blocks
+==2381== Reachable blocks (those to which a pointer was found) are not shown.
+==2381== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==2381== 
+==2381== For lists of detected and suppressed errors, rerun with: -s
+==2381== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 7 from 7)
+[1m[7m%[27m[1m[0m                                                                                                                           
+ 
+
+[0m[27m[24m[Jbelatavaresp@MacBook-Pro-de-Izabela Aula_Pratica_3_ED % [K[?2004heexit[?2004l
+
+
+Script done on Thu Apr  6 01:08:59 2023
